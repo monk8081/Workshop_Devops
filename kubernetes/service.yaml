@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name:  monk-rtp-service
+  namespace: monk
+spec:
+  type: NodePort
+  selector:
+    app: monk-rtp
+  ports:
+  - nodePort: 30082
+    port: 8000
+    targetPort: 8000
