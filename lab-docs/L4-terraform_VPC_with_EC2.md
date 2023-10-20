@@ -15,10 +15,10 @@ In VPC, there are various steps involved.
 
 To create a VPC, we need a CIDR block. So the resource block looks like the below. 
    ```sh 
-     resource "aws_vpc" "monk-vpc" {
+     resource "aws_vpc" "Man-vpc" {
           cidr_block = "10.1.0.0/16"
           tags = {
-           Name = "monk-vpc"
+           Name = "Man-vpc"
         }
       }
    ```
@@ -31,13 +31,13 @@ So the subnet snippet looks like the one below.
 
 ```sh 
 //Create a Subnet 
-resource "aws_subnet" "monk-public_subent_01" {
-    vpc_id = aws_vpc.monk-vpc.id
+resource "aws_subnet" "Man-public_subent_01" {
+    vpc_id = aws_vpc.Man-vpc.id
     cidr_block = "10.1.1.0/24"
     map_public_ip_on_launch = "true"
     availability_zone = "us-east-1a"
     tags = {
-      Name = "monk-public_subent_01"
+      Name = "Man-public_subent_01"
     }
 }
 ```
@@ -48,10 +48,10 @@ We should create an internet gateway and add this to VPC for this
 
 ```sh 
 //Creating an Internet Gateway 
-resource "aws_internet_gateway" "monk-igw" {
-    vpc_id = aws_vpc.dpw-vpc.id
+resource "aws_internet_gateway" "Man-igw" {
+    vpc_id = aws_vpc.Man-vpc.id
     tags = {
-      Name = "monk-igw"
+      Name = "Man-igw"
     }
 }
 ```
@@ -60,14 +60,14 @@ resource "aws_internet_gateway" "monk-igw" {
 
 ```sh 
 // Create a route table 
-resource "aws_route_table" "monk-public-rt" {
-    vpc_id = aws_vpc.monk-vpc.id
+resource "aws_route_table" "Man-public-rt" {
+    vpc_id = aws_vpc.Man-vpc.id
     route {
         cidr_block = "0.0.0.0/0"
-        gateway_id = aws_internet_gateway.monk-igw.id
+        gateway_id = aws_internet_gateway.Man-igw.id
     }
     tags = {
-      Name = "monk-public-rt"
+      Name = "Man-public-rt"
     }
 }
 ```
@@ -76,9 +76,9 @@ resource "aws_route_table" "monk-public-rt" {
 ```sh 
 // Associate subnet with route table
 
-resource "aws_route_table_association" "monk-rta-public-subent-1" {
-    subnet_id = aws_subnet.monk-public_subent_01.id
-    route_table_id = aws_route_table.monk-public-rt.id
+resource "aws_route_table_association" "Man-rta-public-subent-1" {
+    subnet_id = aws_subnet.Man-public_subent_01.id
+    route_table_id = aws_route_table.Man-public-rt.id
 }
 ``` 
 
